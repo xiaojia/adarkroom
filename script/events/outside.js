@@ -80,7 +80,9 @@ Events.Outside = [
 					var population = $SM.get('game.population', true);
 					var huts = $SM.get('game.buildings["hut"]', true);
 					$SM.set('game.buildings["hut"]', (huts - 1));
-					Outside.killVillagers(4);
+					var numKilled = 4;
+					Outside.killVillagers(numKilled);
+					Notifications.notify(null, _('{0} villagers have died', numKilled));
 				},
 				buttons: {
 					'mourn': {
@@ -137,6 +139,7 @@ Events.Outside = [
 				onLoad: function() {
 					var numKilled = Math.floor(Math.random() * 20) + 1;
 					Outside.killVillagers(numKilled);
+					Notifications.notify(null, _('{0} villagers have died', numKilled));
 				},
 				buttons: {
 					'end': {
@@ -189,6 +192,7 @@ Events.Outside = [
 				onLoad: function() {
 					var numKilled = Math.floor(Math.random() * 5) + 2;
 					Outside.killVillagers(numKilled);
+					Notifications.notify(null, _('{0} villagers have died', numKilled));
 				},
 				buttons: {
 					'end': {
@@ -206,6 +210,7 @@ Events.Outside = [
 				onLoad: function() {
 					var numKilled = Math.floor(Math.random() * 80) + 10;
 					Outside.killVillagers(numKilled);
+					Notifications.notify(null, _('{0} villagers have died', numKilled));
 				},
 				buttons: {
 					'end': {
@@ -233,6 +238,7 @@ Events.Outside = [
 				onLoad: function() {
 					var numKilled = Math.floor(Math.random() * 10) + 1;
 					Outside.killVillagers(numKilled);
+					Notifications.notify(null, _('{0} villagers have died', numKilled));
 				},
 				reward: {
 					fur: 100,
@@ -266,6 +272,7 @@ Events.Outside = [
 				onLoad: function() {
 					var numKilled = Math.floor(Math.random() * 40) + 1;
 					Outside.killVillagers(numKilled);
+					Notifications.notify(null, _('{0} villagers have died', numKilled));
 				},
 				reward: {
 					bullets: 10,

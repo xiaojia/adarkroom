@@ -222,6 +222,7 @@ div.button div.cooldown {
 	border-radius: 4px;
 	background: var(--sv-parch);
 	color: var(--sv-txt-dk);
+	width: 696px !important;
 }
 
 /* ============================================================

@@ -355,6 +355,8 @@ var Events = {
 			Events._autoAttackBtn = null;
 			return;
 		}
+		// 先让按钮进入冷却(loading)态，模拟一次真实点击，防止玩家重复手动点击
+		Button.cooldown(btn);
 		Events.useWeapon(btn);
 	},
 	
