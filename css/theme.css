@@ -1,0 +1,358 @@
+/* ============================================================
+ * 星露谷风格整体主题（A Dark Room）
+ * 木质暖色面板 + 立体按钮 + 选中态高亮
+ * 通过 CSS 变量驱动，dark.css 里仅需覆盖变量即可适配深色模式
+ * ============================================================ */
+
+:root {
+	/* —— 木框 / 面板 —— */
+	--sv-frame:      #3d2410;   /* 深色木框 */
+	--sv-wood:       #7a4a23;   /* 面板主体木色 */
+	--sv-wood-hi:    #9a5e2c;   /* 面板上部浅木 */
+	--sv-wood-sh:    #5a3418;   /* 面板下部深木 */
+	--sv-parch:      #efe0b6;   /* 羊皮纸 / 标签底 */
+	--sv-parch-dk:   #d8bd8a;   /* 羊皮纸暗边 */
+	--sv-txt:        #f6ecd0;   /* 木面板上奶白文字 */
+	--sv-txt-dk:     #3a2410;   /* 羊皮纸上深棕文字 */
+
+	/* —— 按钮 —— */
+	--sv-btn:            #d8b375;  /* 按钮填充 */
+	--sv-btn-hi:         #eacd93;  /* 按钮悬停 */
+	--sv-btn-border:     #4a2c15;  /* 按钮描边 */
+	--sv-btn-txt:        #3a2410;  /* 按钮文字 */
+	--sv-btn-dis:        #b7a37f;  /* 禁用按钮 */
+	--sv-btn-dis-txt:    #8a744f;  /* 禁用文字 */
+
+	/* —— 页面 / 通知 —— */
+	--sv-page:   #ece0c6;   /* 暖羊皮纸页面底 */
+	--sv-tab:    #8a5a2b;   /* 顶部标签木色 */
+	--sv-tab-hi: #a06c34;   /* 顶部标签悬停 */
+	--sv-tab-sel:#ead9ac;   /* 选中标签 */
+
+	/* —— 工具提示 / 下拉 —— */
+	--sv-tooltip-bg:     #f4e9cf;
+	--sv-tooltip-border: #6a4526;
+	--sv-tooltip-txt:    #3a2410;
+
+	/* —— 冷却层 —— */
+	--sv-cooldown: rgba(40, 24, 10, 0.5);
+}
+
+body {
+	background-color: var(--sv-page);
+	color: var(--sv-txt-dk);
+}
+
+/* ============================================================
+ * 页面滚动条
+ * ============================================================ */
+body::-webkit-scrollbar { width: 12px; }
+body::-webkit-scrollbar-track { background: var(--sv-page); }
+body::-webkit-scrollbar-thumb {
+	background: var(--sv-wood);
+	border: 2px solid var(--sv-frame);
+	border-radius: 6px;
+}
+
+/* ============================================================
+ * 顶部导航标签（木质 tab）
+ * ============================================================ */
+div.headerButton {
+	font-size: 15px;
+	font-weight: bold;
+	cursor: pointer;
+	float: none;
+	margin-left: 8px;
+	padding: 4px 14px 5px;
+	border: 2px solid var(--sv-frame);
+	border-radius: 7px 7px 0 0;
+	background: linear-gradient(180deg, var(--sv-tab-hi) 0%, var(--sv-tab) 55%, var(--sv-wood-sh) 100%);
+	color: var(--sv-txt);
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+div.headerButton:first-child { margin-left: 0; }
+
+div.headerButton:hover {
+	text-decoration: none;
+	background: linear-gradient(180deg, var(--sv-wood-hi) 0%, var(--sv-tab-hi) 55%, var(--sv-wood) 100%);
+}
+
+div.headerButton.selected,
+div.headerButton.selected:hover {
+	cursor: default;
+	text-decoration: none;
+	background: linear-gradient(180deg, var(--sv-parch) 0%, var(--sv-tab-sel) 100%);
+	color: var(--sv-txt-dk);
+	text-shadow: none;
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -2px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* ============================================================
+ * 按钮（星露谷立体木质/皮革按钮）
+ * ============================================================ */
+div.button {
+	position: relative;
+	text-align: center;
+	border: 2px solid var(--sv-btn-border);
+	border-radius: 6px;
+	width: 100px;
+	margin-bottom: 6px;
+	padding: 5px 12px;
+	cursor: pointer;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	background: linear-gradient(180deg, var(--sv-btn-hi) 0%, var(--sv-btn) 45%, #c9a25f 100%);
+	color: var(--sv-btn-txt);
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+	box-shadow:
+		inset 0 2px 0 rgba(255, 255, 255, 0.4),
+		inset 0 -2px 0 rgba(0, 0, 0, 0.22),
+		inset 2px 0 0 rgba(255, 255, 255, 0.15),
+		inset -2px 0 0 rgba(0, 0, 0, 0.12),
+		0 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+div.button:hover {
+	text-decoration: none;
+	background: linear-gradient(180deg, #f4ddab 0%, var(--sv-btn-hi) 45%, #d8b375 100%);
+}
+
+div.button:active {
+	transform: translateY(1px);
+	box-shadow:
+		inset 0 2px 3px rgba(0, 0, 0, 0.25),
+		0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+div.button.disabled,
+div.button.disabled:hover {
+	cursor: default;
+	border-color: var(--sv-btn-border);
+	background: var(--sv-btn-dis);
+	color: var(--sv-btn-dis-txt);
+	text-decoration: none;
+	text-shadow: none;
+	box-shadow: none;
+}
+
+/* 冷却层：一个随进度收缩的半透明遮罩，压在按钮上 */
+div.button div.cooldown {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	height: 100%;
+	border-radius: inherit;
+	background: var(--sv-cooldown);
+}
+
+/* ============================================================
+ * 面板（村庄 / 商店 / 装备 / 特长 等木质框）
+ * ============================================================ */
+#village,
+#stores,
+#weapons,
+#outfitting,
+#perks {
+	border: 2px solid var(--sv-frame);
+	border-radius: 7px;
+	background:
+		linear-gradient(180deg,
+			var(--sv-wood-hi) 0%,
+			var(--sv-wood) 14%,
+			var(--sv-wood) 86%,
+			var(--sv-wood-sh) 100%);
+	box-shadow:
+		inset 0 0 0 2px var(--sv-wood-hi),
+		inset 0 0 0 3px var(--sv-frame),
+		0 2px 4px rgba(0, 0, 0, 0.35);
+	color: var(--sv-txt);
+}
+
+#village > div,
+#stores > div,
+#weapons > div,
+#outfitting > div,
+#perks > div {
+	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* 面板上的羊皮纸标签（village / stores / weapons / supplies / perks） */
+#village:before,
+#stores:before,
+#weapons:before,
+#outfitting:before,
+#perks:before {
+	background: var(--sv-parch);
+	color: var(--sv-txt-dk);
+	border: 2px solid var(--sv-frame);
+	border-radius: 4px;
+	padding: 0 7px;
+	font-weight: bold;
+	text-shadow: none;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* 顶部浮动的小徽章（population / bagspace / recovery 等） */
+#population,
+#bagspace,
+#healthCounter,
+#backpackTitle,
+#backpackSpace {
+	background: var(--sv-parch);
+	color: var(--sv-txt-dk);
+	border: 2px solid var(--sv-frame);
+	border-radius: 4px;
+	text-shadow: none;
+	font-weight: bold;
+	padding: 0 5px;
+}
+
+#bagspace-world {
+	border: 2px solid var(--sv-frame);
+	border-radius: 4px;
+	background: var(--sv-parch);
+	color: var(--sv-txt-dk);
+}
+
+/* ============================================================
+ * 工具提示 / 下拉菜单
+ * ============================================================ */
+div.tooltip {
+	background: var(--sv-tooltip-bg);
+	border: 2px solid var(--sv-tooltip-border);
+	color: var(--sv-tooltip-txt);
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.35);
+	border-radius: 5px;
+	padding: 4px 7px;
+}
+
+div.tooltip .row_key { color: var(--sv-tooltip-txt); }
+
+#dropMenu {
+	background: var(--sv-tooltip-bg);
+	border: 2px solid var(--sv-tooltip-border);
+	color: var(--sv-tooltip-txt);
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.35);
+	border-radius: 5px;
+}
+
+#dropMenu:before {
+	border-bottom: 1px solid var(--sv-tooltip-border);
+}
+
+/* ============================================================
+ * 事件弹窗
+ * ============================================================ */
+.eventPanel {
+	background: var(--sv-parch);
+	border: 2px solid var(--sv-frame);
+	border-radius: 8px;
+	box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.4);
+	color: var(--sv-txt-dk);
+}
+
+.eventPanel:after {
+	border: none;
+	box-shadow: none;
+}
+
+.eventTitle {
+	background: var(--sv-parch);
+	color: var(--sv-txt-dk);
+}
+
+.eventPanel:before {
+	background-color: var(--sv-parch);
+	opacity: 0.6;
+}
+
+.eventPanel:after {
+	border: none;
+	box-shadow: none;
+}
+
+.eventTitle:after {
+	background-color: var(--sv-parch);
+}
+
+.eventPanel .button {
+	border-color: var(--sv-btn-border);
+}
+
+body.noMask .eventPanel { background-color: var(--sv-parch); color: var(--sv-txt-dk); }
+body.noMask .eventTitle { background-color: var(--sv-parch); color: var(--sv-txt-dk); }
+body.noMask #description { color: var(--sv-txt-dk); }
+
+/* ============================================================
+ * 通知侧栏渐变（对齐页面底色）
+ * ============================================================ */
+div#notifyGradient {
+	background-color: var(--sv-page);
+	background: -webkit-linear-gradient(rgba(236, 224, 198, 0) 0%, rgba(236, 224, 198, 1) 100%);
+	background: linear-gradient(rgba(236, 224, 198, 0) 0%, rgba(236, 224, 198, 1) 100%);
+}
+
+div#saveNotify { background: var(--sv-parch); }
+
+/* ============================================================
+ * 世界地图边框 & 补给包
+ * ============================================================ */
+#map {
+	border: 2px solid var(--sv-frame);
+	border-radius: 5px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+div.supplyItem {
+	border: 2px solid var(--sv-frame);
+	border-radius: 5px;
+	background: linear-gradient(180deg, var(--sv-wood-hi), var(--sv-wood));
+	color: var(--sv-txt);
+}
+
+/* build / craft / buy 栏目标签 */
+#buildBtns:before,
+#craftBtns:before,
+#buyBtns:before {
+	background: var(--sv-parch);
+	color: var(--sv-txt-dk);
+	border: 1px solid var(--sv-frame);
+	border-radius: 4px;
+	padding: 0 6px;
+	font-weight: bold;
+}
+
+/* 战斗面板的血条外框（覆盖 pixels.css 的默认暗色，保持星露谷木框） */
+#description div.fighter .hp { border-color: var(--sv-frame); }
+
+/* ============================================================
+ * 通知栏图标（每条文字通知配对应的像素图标）
+ * ============================================================ */
+div#notifications div.notification {
+	display: flex;
+	align-items: flex-start;
+	gap: 6px;
+}
+
+div#notifications div.notification .notification-icon {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	margin-top: 2px;
+	opacity: 0.92;
+	filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.25));
+}
+
+div#notifications div.notification .notification-text {
+	flex: 1 1 auto;
+}

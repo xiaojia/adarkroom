@@ -1,0 +1,114 @@
+#outfitting {
+	position: relative;
+	border: 1px solid black;
+	width: 200px;
+	margin-bottom: 20px;
+	padding: 5px 10px;
+}
+
+div#outfitting:before {
+	position: absolute;
+	content: "supplies";
+	top: -10px;
+    background-color: white;
+    font-size: 12px;
+    border: solid 1px #000;
+}
+
+div.outfitRow {
+	position: relative;
+	cursor: default;
+	margin: 10px -30px 10px 0px;
+}
+
+div.outfitRow > .row_val {
+	padding-right: 30px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+div.outfitRow .tooltip {
+	width: 150px;
+}
+
+div#bagspace {
+	background-color: white;
+	position: absolute;
+	top:-13px;
+	right: 10px;
+	font-size: 12px;
+    padding: 0 5px;
+}
+
+div#perks {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	border: 1px solid black;
+	cursor: default;
+	padding: 10px 10px 5px;
+	width: 200px;
+}
+
+div#perks:before {
+	position: absolute;
+	content: "perks";
+	top: -10px;
+    background-color: white;
+    font-size: 12px;
+    border: solid 1px #000;
+}
+
+div.perkRow {
+	position: relative;
+}
+
+div.perkRow .row_key {
+	float: none;
+}
+
+div.equipHeader {
+	margin: 10px -30px 10px 0px;
+	font-weight: bold;
+	font-size: 16px;
+	padding-bottom: 2px;
+}
+
+div.equipRow {
+	margin: 6px -30px 6px 0px;
+}
+
+/* icon centers automatically via the standard .outfitRow .row_key inline-flex in pixels.css */
+div.equipRow .row_val {
+	float: right;
+	display: inline-flex;
+	align-items: center;
+	white-space: nowrap;
+}
+
+div.equipRow .row_val > span {
+	margin-right: 8px;
+}
+
+div.equipBtn {
+	display: inline-block;
+	cursor: pointer;
+	font-size: 12px;
+	border: 1px solid #000;
+	padding: 0 6px;
+	background-color: #6d7db5;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+div.equipBtn:hover {
+	background-color: #CCCCCC;
+}

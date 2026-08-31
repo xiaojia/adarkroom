@@ -1,0 +1,72 @@
+div#village {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	border: 1px solid black;
+	cursor: default;
+	padding: 10px 10px 5px;
+	width: 200px;
+}
+
+div#population {
+	position: absolute;
+	top: -10px;
+	right: 10px;
+	padding: 0 5px;
+	background-color: white;
+	border: solid 1px #000;
+	font-size: 12px;
+}
+
+.noHuts #population {
+	display: none;
+}
+
+div#village:before {
+	position: absolute;
+	background: white;
+	content: "village";
+	left: 8px;
+	top: -10px;
+	border: solid 1px #000;
+	padding: 0 5px;
+	font-size: 12px;
+}
+
+div#village.noHuts:before {
+	content: "forest";
+}
+
+div#workers {
+	position: absolute;
+	top: -4px;
+	left: 160px;
+	width: 150px;
+}
+
+.workerRow>.row_val {
+	position: relative;
+	padding-right: 20px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.workerRow {
+	position: relative;
+	margin: 10px 0px;
+	cursor: default;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.workerRow .tooltip {
+}
+
+div.storeRow div.tooltip {
+	width: 160px;
+}

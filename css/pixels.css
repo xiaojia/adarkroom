@@ -1,0 +1,207 @@
+/* ============================================================
+ * 像素 UI 风格（A Dark Room）
+ * 由 script/pixels.js 生成的 SVG 精灵 + 统一的像素化排版
+ * ============================================================ */
+
+:root {
+	--px-frame: #1a120a;
+	--px-panel-bg: rgba(0, 0, 0, 0.16);
+	--px-panel-line: rgba(255, 255, 255, 0.14);
+}
+
+/* 浅色模式下使用同一套像素色，仅微调面板底色 */
+body.noMask {
+	--px-panel-bg: rgba(255, 255, 255, 0.5);
+	--px-panel-line: rgba(0, 0, 0, 0.14);
+}
+
+/* —— 像素图标通用 —— */
+.px-icon,
+.px-svg {
+	display: inline-block;
+	vertical-align: middle;
+	image-rendering: pixelated;
+	line-height: 0;
+}
+
+.px-icon {
+	flex: none;
+}
+
+/* ============================================================
+ * 世界地图（瓦片像素化）
+ * ============================================================ */
+
+#map {
+	display: inline-flex;
+	flex-direction: column;
+	line-height: 0;
+	letter-spacing: 0;
+	background: #2a241c;
+	image-rendering: pixelated;
+}
+
+#map .px-row {
+	display: flex;
+}
+
+#map .px-tile {
+	flex: none;
+	position: relative;
+	width: 12px;
+	height: 12px;
+	box-sizing: border-box;
+}
+
+#map .px-unknown {
+	background: #16120d;
+}
+
+#map .px-player {
+	background: #54483a;
+	box-shadow: inset 0 0 0 1px #8a7448;
+}
+
+#map .px-landmark {
+	background: #241c12;
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+#map .px-tile .px-svg {
+	width: 12px;
+	height: 12px;
+}
+
+/* 地形纯色瓦片（拉开对比度，道路/房间更易辨认） */
+#map .terr-forest  { background: #3f6b2c; }
+#map .terr-field   { background: #7c9a48; }
+#map .terr-barrens { background: #a8925f; }
+#map .terr-road    { background: #d8c184; }
+#map .terr-swamp   { background: #4e8880; }
+
+/* ============================================================
+ * 战斗界面
+ * ============================================================ */
+
+#description:has(.fighter) {
+	min-height: 175px;
+}
+
+#description div.fighter {
+	padding: 0;
+	position: absolute;
+	bottom: 15px;
+	width: 76px;
+	text-align: center;
+}
+
+#wanderer { left: 25%; }
+#enemy    { right: 25%; }
+
+.fighter .px-svg {
+	height: 64px;
+	width: auto;
+	filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.4));
+}
+
+/* 数值血条（保持文字，套上像素框） */
+.fighter .hp {
+	position: absolute;
+	top: -14px;
+	left: 50%;
+	transform: translateX(-50%);
+	margin-left: 0;
+	background: rgba(0, 0, 0, 0.58);
+	color: #fff;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 11px;
+	line-height: 13px;
+	padding: 1px 5px;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	white-space: nowrap;
+	z-index: 3;
+}
+
+/* 图形化像素血条（由 JS 填充宽度） */
+.fighter .hpbar {
+	position: absolute;
+	top: -23px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 62px;
+	height: 7px;
+	background: #241a12;
+	border: 1px solid #0e0a06;
+	box-sizing: border-box;
+	margin-left: 0;
+	z-index: 2;
+}
+
+.fighter .hpbar .hpbar-fill {
+	height: 100%;
+	background: #4a8a2a;
+	transition: width 0.15s linear;
+}
+
+/* 伤害浮动字 */
+.damageText {
+	font-family: "Courier New", Courier, monospace;
+	font-weight: bold;
+	color: #ffe08a;
+	text-shadow: 1px 1px 0 #1a120a;
+	z-index: 5;
+}
+
+/* 远程弹体 */
+#description .bullet {
+	font-family: "Courier New", Courier, monospace;
+	font-weight: bold;
+	color: #e0c060;
+	font-size: 14px;
+	padding: 0;
+	text-align: center;
+}
+
+/* ============================================================
+ * 村庄 / 商店 / 远征 的行内像素图标
+ * ============================================================ */
+
+.storeRow .row_key,
+.workerRow .row_key,
+.outfitRow .row_key {
+	display: inline-flex;
+	align-items: center;
+}
+
+.row_key .px-icon,
+.workerRow .px-icon {
+	margin-right: 5px;
+}
+
+/* 按钮内的行内图标（生火 / 建造 / 购买按钮） */
+.button .px-icon {
+	margin: 0 5px 0 0;
+}
+
+/* 按钮内的行内图标（生火 / 建造 / 购买按钮） */
+.button .px-icon svg{
+	width: 20px;
+	height: 20px;
+}
+
+/* tooltip 内的资源行图标对齐 */
+.button .tooltip .row_key {
+	display: inline-flex;
+	align-items: center;
+}
+
+/* 统一的像素面板底色，让村庄/商店等更有层次 */
+#village,
+#stores,
+#outfitting,
+#perks {
+	background: var(--px-panel-bg);
+}
+
+/* 刷新地图时的淡入，保留像素锐利感 */
+#map { -webkit-user-select: none; user-select: none; }
