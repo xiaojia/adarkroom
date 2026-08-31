@@ -8,14 +8,16 @@ body {
 }
 
 div#wrapper {
-    display: flex;
-    height: 100%;
-    padding: 0 0 0 220px;
+    margin: auto;
+    width: 700px;
+    padding: 20px 0 0 220px;
+    position: relative;
 }
 
 div#content {
-    height: 100%;
-    flex: 1;
+    position: relative;
+    overflow: hidden;
+    height: 1000px;
 }
 
 div#outerSlider {

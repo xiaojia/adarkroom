@@ -11,8 +11,7 @@ var Events = {
 	_LEAVE_COOLDOWN: 1,
 	STUN_DURATION: 4000,
 	BLINK_INTERVAL: false,
-	_autoAttackTimer: null,
-	_autoAttackBtn: null,
+	_autoAttackBtns: [],
 	
 	init: function(options) {
 		this.options = $.extend(
@@ -329,35 +328,76 @@ var Events = {
 				Events._enemyAttackTimer = Engine.setTimeout(Events.enemyAttack, scene.attackDelay * 1000);
 			}
 			
-			// 自动连击：无消耗的近战/挥拳武器，点击一次后自动攻击直至战斗结束
+			// 自动连击：无消耗的近战/挥拳武器，点击一次后自动攻击直至战斗结束。
+			// 每个武器按钮各自维护独立的连击定时器，互不干扰，
+			// 这样多个武器按钮同时触发时，每个都能独立进入 loading 并持续自动攻击。
 			if(weapon.type == 'melee' || weapon.type == 'unarmed') {
-				Events._autoAttackBtn = btn;
-				clearTimeout(Events._autoAttackTimer);
-				Events._autoAttackTimer = Engine.setTimeout(function() {
-					Events.autoAttack(btn);
-				}, weapon.cooldown * 1000);
+				Events._autoAttackStart(btn, weapon.cooldown * 1000);
 			}
 		}
 	},
 	
+	// 启动某武器按钮的自动连击（记录到活动集合，供战斗结束统一清理）
+	_autoAttackStart: function(btn, delay) {
+		clearTimeout(btn.data('_autoAttackTimer'));
+		if(Events._autoAttackBtns.indexOf(btn) < 0) {
+			Events._autoAttackBtns.push(btn);
+		}
+		btn.data('_autoAttackTimer', Engine.setTimeout(function() {
+			Events.autoAttack(btn);
+		}, delay));
+	},
+
+	// 停止某武器按钮的自动连击
+	_autoAttackStop: function(btn) {
+		if(btn && btn.data) {
+			clearTimeout(btn.data('_autoAttackTimer'));
+			btn.data('_autoAttackTimer', null);
+		}
+		var i = Events._autoAttackBtns.indexOf(btn);
+		if(i >= 0) {
+			Events._autoAttackBtns.splice(i, 1);
+		}
+	},
+
+	// 停止所有武器按钮的自动连击（战斗结束/胜利/死亡时调用）
+	_autoAttackClearAll: function() {
+		for(var i = 0; i < Events._autoAttackBtns.length; i++) {
+			var btn = Events._autoAttackBtns[i];
+			if(btn && btn.data) {
+				clearTimeout(btn.data('_autoAttackTimer'));
+				btn.data('_autoAttackTimer', null);
+			}
+		}
+		Events._autoAttackBtns = [];
+	},
+
 	autoAttack: function(btn) {
 		// 战斗已结束（胜利/离开/死亡）则停止自动攻击
 		if(!Events.activeEvent() || Events.won || $('#wanderer').data('hp') <= 0) {
-			Events._autoAttackBtn = null;
+			Events._autoAttackStop(btn);
 			return;
 		}
 		if($('#enemy').length === 0 || $('#enemy').data('hp') <= 0) {
-			Events._autoAttackBtn = null;
+			Events._autoAttackStop(btn);
 			return;
 		}
 		// 武器已不可用（如弹药耗尽）则停止自动攻击
 		if(Button.isDisabled(btn)) {
-			Events._autoAttackBtn = null;
+			Events._autoAttackStop(btn);
 			return;
 		}
-		// 先让按钮进入冷却(loading)态，模拟一次真实点击，防止玩家重复手动点击
-		Button.cooldown(btn);
-		Events.useWeapon(btn);
+		// 按钮仍处于冷却(loading)中（还没解除 disabled）时，暂时等待其冷却结束再触发，
+		// 避免重叠攻击导致动画被 stop(true,true) 取消、只有最后一次攻击生效
+		if(btn.hasClass('disabled')) {
+			btn.data('_autoAttackTimer', Engine.setTimeout(function() {
+				Events.autoAttack(btn);
+			}, 100));
+			return;
+		}
+		// 自动触发按钮自身的点击事件，由按钮点击回调统一处理冷却与攻击逻辑，
+		// 这样能正确进入 loading 态，且不会出现多个攻击并发时只有最后一个生效的问题
+		$(btn).trigger('click');
 	},
 	
 	animateMelee: function(fighter, dmg, callback) {
@@ -482,8 +522,7 @@ var Events = {
 	winFight: function() {
 		Events.won = true;
 		clearTimeout(Events._enemyAttackTimer);
-		clearTimeout(Events._autoAttackTimer);
-		Events._autoAttackBtn = null;
+		Events._autoAttackClearAll();
 		$('#enemy').animate({opacity: 0}, 300, 'linear', function() {
 			Engine.setTimeout(function() {
 				try {
@@ -879,6 +918,7 @@ var Events = {
 	},
 
 	endEvent: function() {
+		Events._autoAttackClearAll();
 		Events.eventPanel().animate({opacity:0}, Events._PANEL_FADE, 'linear', function() {
 			Events.eventPanel().remove();
 			Events.activeEvent().eventPanel = null;
