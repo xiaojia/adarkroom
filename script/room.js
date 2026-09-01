@@ -12,13 +12,13 @@ var Room = {
 	buttons:{},
 
 	// Items that can be equipped/unequipped to grant carry capacity or protection
-	EquippableItems: ['waterskin', 'cask', 'water tank', 'rucksack', 'wagon', 'convoy', 'l armour', 'i armour', 's armour'],
+	EquippableItems: ['waterskin', 'cask', 'water tank', 'fluid recycler', 'rucksack', 'wagon', 'convoy', 'cargo drone', 'l armour', 'i armour', 's armour'],
 
 	// Grouping of equippable items by upgrade tier (lowest -> highest).
 	// Only the highest-tier owned item in each group is shown in the outfit list.
 	EquippableGroups: [
-		['waterskin', 'cask', 'water tank'],
-		['rucksack', 'wagon', 'convoy'],
+		['waterskin', 'cask', 'water tank', 'fluid recycler'],
+		['rucksack', 'wagon', 'convoy', 'cargo drone'],
 		['l armour', 'i armour', 's armour']
 	],
 
@@ -845,6 +845,8 @@ var Room = {
 				type = Room.TradeGoods[k].type;
 			} else if (Room.MiscItems[k]) {
 				type = Room.MiscItems[k].type;
+			} else if(typeof Fabricator !== 'undefined' && Fabricator.Craftables[k]) {
+				type = Fabricator.Craftables[k].type;
 			}
 			
 			var location;

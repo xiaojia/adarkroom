@@ -63,10 +63,3 @@ div#workers {
 	align-items: center;
 	justify-content: space-between;
 }
-
-.workerRow .tooltip {
-}
-
-div.storeRow div.tooltip {
-	width: 160px;
-}

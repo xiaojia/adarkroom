@@ -940,8 +940,50 @@ Pixel.define('upgrade_convoy', {
 		'..oWWWWWWWo.',
 		'..oGGGGGGGo.',
 		'..oWWoWWo...',
-		'...o..o.....',
-		'...o..o.....',
+	'...o..o.....',
+	'...o..o.....',
+	'............'
+	]
+});
+
+// —— 液体循环机（升级品）——
+Pixel.define('upgrade_fluid_recycler', {
+	palette: {
+		'o': '#1a120a', 'M': '#8a9a9a', 'm': '#6a7a7a', 'B': '#3a5a8a', 'b': '#5a9aba', 'K': '#2a1e12'
+	},
+	grid: [
+		'............',
+		'...oooooo...',
+		'..oMMMMMMo..',
+		'.oMMMMMMMMo.',
+		'.oMMbBBBMMo.',
+		'.oMBbBBBMMo.',
+		'.oMBbBBBMMo.',
+		'.oMMbBBBMMo.',
+		'.oMMMMMMMMo.',
+		'..oMMMMMMo..',
+		'...oooooo...',
+		'............'
+	]
+});
+
+// —— 货运无人机（升级品）——
+Pixel.define('upgrade_cargo_drone', {
+	palette: {
+		'o': '#1a120a', 'M': '#a0b0b0', 'm': '#6a7a7a', 'C': '#a0703a', 'c': '#7a5228', 'K': '#2a1e12'
+	},
+	grid: [
+		'............',
+		'....o..o....',
+		'..o.o..o.o..',
+		'...oooooo...',
+		'..oMMMMMMo..',
+		'..oMMmmMMo..',
+		'..oMMCCMMo..',
+		'...oCCCCo...',
+		'..oCccccCo..',
+		'...oCCCCo...',
+		'....oooo....',
 		'............'
 	]
 });
@@ -1767,9 +1809,11 @@ Pixel.buildingSprite = function(name) {
 			'waterskin': 'upgrade_waterskin',
 			'cask': 'upgrade_cask',
 			'water tank': 'upgrade_water_tank',
+			'fluid recycler': 'upgrade_fluid_recycler',
 			'rucksack': 'upgrade_rucksack',
 			'wagon': 'upgrade_wagon',
 			'convoy': 'upgrade_convoy',
+			'cargo drone': 'upgrade_cargo_drone',
 			'l armour': 'upgrade_l_armour',
 			'i armour': 'upgrade_i_armour',
 			's armour': 'upgrade_s_armour'

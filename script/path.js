@@ -69,7 +69,7 @@ var Path = {
 	},
 	
 	getCapacity: function() {
-		if($SM.get('stores["cargo drone"]', true) > 0) {
+		if(Room.isEquipped('cargo drone')) {
 			return Path.DEFAULT_BAG_SPACE + 100;
 		} else if(Room.isEquipped('convoy')) {
 			return Path.DEFAULT_BAG_SPACE + 60;

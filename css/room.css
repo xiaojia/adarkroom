@@ -63,7 +63,7 @@ div.storeRow .px-icon svg {
 div#stores:before {
 	position: absolute;
 	background: white;
-	content: "stores";
+	content: "库存";
 	left: 8px;
 	top: -10px;
 	border: solid 1px #000;
@@ -84,7 +84,7 @@ div#weapons {
 div#weapons:before {
 	position: absolute;
 	background: white;
-	content: "weapons";
+	content: "武器";
 	left: 8px;
 	top: -10px;
     border: solid 1px #000;
