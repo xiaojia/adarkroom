@@ -35,7 +35,7 @@ var Space = {
 			.appendTo('#outerSlider');
 		
 		// Create the ship
-		Space.ship = $('<div>').text("@").attr('id', 'ship').appendTo(this.panel);
+		Space.ship = $('<div>').attr('id', 'ship').append(Pixel.icon('space_ship')).appendTo(this.panel);
 		
 		// Create the hull display
 		var h = $('<div>').attr('id', 'hullRemaining').appendTo(this.panel);
@@ -62,7 +62,7 @@ var Space = {
 		Space.right = false;
 		
 		Space.ship.css({
-			top: '350px',
+			top: '500px',
 			left: '350px'
 		});
 		Space.startAscent();
@@ -99,27 +99,27 @@ var Space = {
 	
 	createAsteroid: function(noNext) {
 		var r = Math.random();
-		var c;
+		var sprite;
 		if(r < 0.2)
-			c = '#';
+			sprite = 'space_ast_a';
 		else if(r < 0.4)
-			c = '$';
+			sprite = 'space_ast_b';
 		else if(r < 0.6)
-			c = '%';
+			sprite = 'space_ast_c';
 		else if(r < 0.8)
-			c = '&';
+			sprite = 'space_ast_d';
 		else
-			c = 'H';
+			sprite = 'space_ast_e';
 		
-		var x = Math.floor(Math.random() * 700);
-		var a = $('<div>').addClass('asteroid').text(c).appendTo('#spacePanel').css('left', x + 'px');
+		var x = Math.floor(Math.random() * 660);
+		var a = $('<div>').addClass('asteroid').append(Pixel.icon(sprite)).appendTo('#spacePanel').css('left', x + 'px');
 		a.data({
 			xMin: x,
 			xMax: x + a.width(),
 			height: a.height()
 		});
 		a.animate({
-			top: '740px'
+			top: '1040px'
 		}, {
 			duration: Space.BASE_ASTEROID_SPEED - Math.floor(Math.random() * (Space.BASE_ASTEROID_SPEED * 0.65)),
 			easing: 'linear', 
@@ -203,15 +203,17 @@ var Space = {
 		
 		x = x + dx;
 		y = y + dy;
-		if(x < 10) {
-			x = 10;
-		} else if(x > 690) {
-			x = 690;
+		// 飞船为 36x42 像素精灵（负 margin 居中锚点在船中心），
+		// 上边界按半高 21、左右按半宽 18 收边，保证整艘船不会伸出面板。
+		if(x < 18) {
+			x = 18;
+		} else if(x > 682) {
+			x = 682;
 		}
-		if(y < 10) {
-			y = 10;
-		} else if(y > 690) {
-			y = 690;
+		if(y < 21) {
+			y = 21;
+		} else if(y > 979) {
+			y = 979;
 		}
 		
 		Space.shipX = x;
@@ -382,7 +384,7 @@ var Space = {
 		
 		$('#hullRemaining', Space.panel).animate({opacity: 0}, 500, 'linear');
 		Space.ship.animate({
-			top: '350px',
+			top: '500px',
 			left: '240px'
 		}, 3000, 'linear', function() {
 			Engine.setTimeout(function() {

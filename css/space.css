@@ -98,8 +98,14 @@
 #ship {
 	cursor: default;
 	position: absolute;
-	margin-top: -10px;
-	margin-left: -7.5px;
+	margin-top: -21px;
+	margin-left: -18px;
+}
+
+#ship .px-svg {
+	width: 36px;
+	height: 42px;
+	filter: drop-shadow(0 0 6px rgba(120, 180, 255, 0.35));
 }
 
 #theEnd {
@@ -123,7 +129,12 @@
 	-moz-animation: 1s linear 0s normal none infinite spin;
 	-ms-animation: 1s linear 0s normal none infinite spin;
 	animation: 1s linear 0s normal none infinite spin;
-	font-size: 32px;
+}
+
+.asteroid .px-svg {
+	width: 36px;
+	height: 36px;
+	filter: drop-shadow(1px 2px 0 rgba(0, 0, 0, 0.4));
 }
 
 #hullRemaining {

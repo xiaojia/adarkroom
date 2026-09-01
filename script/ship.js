@@ -163,7 +163,7 @@ var Ship = {
 	},
 	
 	liftOff: function () {
-		$('#outerSlider').animate({top: '700px'}, 300);
+		$('#outerSlider').animate({top: '1000px'}, 300);
 		Space.onArrival();
 		Engine.activeModule = Space;
 	},
