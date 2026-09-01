@@ -877,7 +877,9 @@ var Room = {
 				$SM.startThieves();
 			}
 			
-			if(row.length === 0 && num > 0) {
+			// 破旧星舰 tab 触发后，外星合金即使为 0 也要显示
+			var showAlloy = (k === 'alien alloy' && $SM.get('features.location.spaceShip'));
+			if(row.length === 0 && (num > 0 || showAlloy)) {
 				row = $('<div>').attr('id', id).addClass('storeRow');
 				var keyDiv = $('<div>').addClass('row_key').text(_(k));
 				keyDiv.prepend(Pixel.icon(Pixel.resourceSprite(k), {pixel: 2}));
