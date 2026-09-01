@@ -1,5 +1,5 @@
 
-**NOTE: THIS IS MICHAEL'S PERSONAL FORK OF ADR. THE OFFICIAL REPO CAN NOW BE FOUND AT https://github.com/doublespeakgames/adarkroom**
+THE OFFICIAL REPO CAN NOW BE FOUND AT https://github.com/doublespeakgames/adarkroom**
 
 更新清单：
 
