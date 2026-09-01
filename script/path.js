@@ -11,6 +11,7 @@ var Path = {
 		'bullets': 0.1,
 		'energy cell': 0.2,
 		'laser rifle': 5,
+		'plasma rifle': 5,
 		'bolas': 0.5
 	},
 		
@@ -170,8 +171,9 @@ var Path = {
 			'energy cell': {type: 'tool' },
 			'bayonet': {type: 'weapon' },
 			'charm': {type: 'tool'},
+			'alien alloy': { type: 'tool' },
 			'medicine': {type: 'tool'}
-		}, Room.Craftables);
+		}, Room.Craftables, Fabricator.Craftables);
 		
 		for(var k in carryable) {
 			var store = carryable[k];

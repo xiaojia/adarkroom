@@ -20,9 +20,13 @@ var Button = {
 			})
 			.data("handler",  typeof options.click == 'function' ? options.click : function() { Engine.log("click"); })
 			.data("remaining", 0)
-			.data("cooldown", typeof options.cooldown == 'number' ? options.cooldown : 0);
+			.data("cooldown", typeof options.cooldown == 'number' ? options.cooldown : 0)
+			.data('boosted', options.boosted ?? (() => false));
 		
 		el.append($("<div>").addClass('cooldown'));
+		
+		// waiting for expiry of residual cooldown detected in state
+		Button.cooldown(el, 'state');
 		
 		if(options.cost) {
 			var ttPos = options.ttPos ? options.ttPos : "bottom right";
@@ -45,6 +49,8 @@ var Button = {
 		return el;
 	},
 	
+	saveCooldown: true,
+	
 	setDisabled: function(btn, disabled) {
 		if(btn) {
 			if(!disabled && !btn.data('onCooldown')) {
@@ -63,24 +69,63 @@ var Button = {
 		return false;
 	},
 	
-	cooldown: function(btn) {
+	cooldown: function(btn, option) {
 		var cd = btn.data("cooldown");
+		if (btn.data('boosted')()) {
+			cd /= 2;
+		}
+		var id = 'cooldown.'+ btn.attr('id');
 		if(cd > 0) {
-			$('div.cooldown', btn).stop(true, true).width("100%").animate({width: '0%'}, cd * 1000, 'linear', function() {
-				var b = $(this).closest('.button');
-				b.data('onCooldown', false);
-				if(!b.data('disabled')) {
-					b.removeClass('disabled');
-				}
+			if(typeof option == 'number') {
+				cd = option;
+			}
+			// param "start" takes value from cooldown time if not specified
+			var start, left;
+			switch(option){
+				// a switch will allow for several uses of cooldown function
+				case 'state':
+					if(!$SM.get(id)){
+						return;
+					}
+					start = Math.min($SM.get(id), cd);
+					left = (start / cd).toFixed(4);
+					break;
+				default:
+					start = cd;
+					left = 1;
+			}
+			Button.clearCooldown(btn);
+			if(Button.saveCooldown){
+				$SM.set(id,start);
+				// residual value is measured in seconds
+				// saves program performance
+				btn.data('countdown', Engine.setInterval(function(){
+					$SM.set(id, $SM.get(id, true) - 0.5, true);
+				},500));
+			}
+			var time = start;
+			if (Engine.options.doubleTime){
+				time /= 2;
+			}
+			$('div.cooldown', btn).width(left * 100 +"%").animate({width: '0%'}, time * 1000, 'linear', function() {
+				Button.clearCooldown(btn, true);
 			});
 			btn.addClass('disabled');
 			btn.data('onCooldown', true);
 		}
 	},
 	
-	clearCooldown: function(btn) {
-		$('div.cooldown', btn).stop(true, true);
+	clearCooldown: function(btn, cooldownEnded) {
+		var ended = cooldownEnded || false;
+		if(!ended){
+			$('div.cooldown', btn).stop(true, true);
+		}
 		btn.data('onCooldown', false);
+		if(btn.data('countdown')){
+			window.clearInterval(btn.data('countdown'));
+			$SM.remove('cooldown.'+ btn.attr('id'));
+			btn.removeData('countdown');
+		}
 		if(!btn.data('disabled')) {
 			btn.removeClass('disabled');
 		}

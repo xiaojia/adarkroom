@@ -20,7 +20,8 @@ var World = {
 		BOREHOLE: 'B',
 		BATTLEFIELD: 'F',
 		SWAMP: 'M',
-		CACHE: 'U'
+		CACHE: 'U',
+		EXECUTIONER: 'X'
 	},
 	TILE_PROBS: {},
 	LANDMARKS: {},
@@ -35,6 +36,7 @@ var World = {
 	BASE_HIT_CHANCE: 0.8,
 	MEAT_HEAL: 8,
 	MEDS_HEAL: 20,
+	HYPO_HEAL: 30,
 	FIGHT_DELAY: 3, // At least three moves between fights
 	NORTH: [ 0, -1],
 	SOUTH: [ 0,  1],
@@ -99,6 +101,25 @@ var World = {
 			damage: 'stun',
 			cooldown: 15,
 			cost: { 'bolas': 1 }
+		},
+		'plasma rifle': {
+			verb: _('disintegrate'),
+			type: 'ranged',
+			damage: 12,
+			cooldown: 1,
+			cost: { 'energy cell': 1 }
+		},
+		'energy blade': {
+			verb: _('slice'),
+			type: 'melee',
+			damage: 10,
+			cooldown: 2
+		},
+		'disruptor': {
+			verb: _('stun'),
+			type: 'ranged',
+			damage: 'stun',
+			cooldown: 15
 		}
 	},
 	
@@ -128,6 +149,7 @@ var World = {
 		World.LANDMARKS[World.TILE.BOREHOLE] = { num: 10, minRadius: 15, maxRadius: World.RADIUS * 1.5, scene: 'borehole', label:  _('A&nbsp;Borehole')};
 		World.LANDMARKS[World.TILE.BATTLEFIELD] = { num: 5, minRadius: 18, maxRadius: World.RADIUS * 1.5, scene: 'battlefield', label:  _('A&nbsp;Battlefield')};
 		World.LANDMARKS[World.TILE.SWAMP] = { num: 1, minRadius: 15, maxRadius: World.RADIUS * 1.5, scene: 'swamp', label:  _('A&nbsp;Murky&nbsp;Swamp')};
+		World.LANDMARKS[World.TILE.EXECUTIONER] = { num: 1, minRadius: 28, maxRadius: 28, scene: 'executioner', 'label': _('A&nbsp;Ravaged&nbsp;Battleship')};
 		
 		// Only add the cache if there is prestige data
 		if($SM.get('previous.stores')) {
@@ -136,10 +158,21 @@ var World = {
 		
 		if(typeof $SM.get('features.location.world') == 'undefined') {
 			$SM.set('features.location.world', true);
+			$SM.set('features.executioner', true);
 			$SM.setM('game.world', {
 				map: World.generateMap(),
 				mask: World.newMask()
 			});
+		}
+		else if(!$SM.get('features.executioner')) {
+			// Place the Executioner in previously generated maps that don't have it
+			var map = $SM.get('game.world.map');
+			var landmark = World.LANDMARKS[World.TILE.EXECUTIONER];
+			for(var l = 0; l < landmark.num; l++) {
+				World.placeLandmark(landmark.minRadius, landmark.maxRadius, World.TILE.EXECUTIONER, map);
+			}
+			$SM.set('game.world.map', map);
+			$SM.set('features.executioner', true);
 		}
 		
 		// Create the World panel
@@ -503,6 +536,8 @@ var World = {
 	medsHeal: function() {
 		return World.MEDS_HEAL;
 	},
+
+	hypoHeal: () => World.HYPO_HEAL,
 	
 	checkFight: function() {
 		World.fightMove = typeof World.fightMove == 'number' ? World.fightMove : 0;
@@ -522,6 +557,9 @@ var World = {
 
 		if(curTile == World.TILE.VILLAGE) {
 			World.goHome();
+		} else if(curTile === World.TILE.EXECUTIONER) {
+			var scene = World.state.executioner ? 'executioner-antechamber' : 'executioner-intro';
+			Events.startEvent(Events.Executioner[scene]);
 		} else if(typeof World.LANDMARKS[curTile] != 'undefined') {
 			Events.startEvent(Events.Setpieces[World.LANDMARKS[curTile].scene]);
 		} else {
@@ -853,6 +891,12 @@ var World = {
 			Ship.init();
 			Engine.event('progress', 'ship');
 		}
+		if(World.state.executioner && !$SM.get('features.location.fabricator')) {
+			Fabricator.init();
+			Notifications.notify(null, _('builder knows the strange device when she sees it. takes it for herself real quick. doesn’t ask where it came from.'));
+			Engine.event('progress', 'fabricator');
+		}
+		World.redeemBlueprints();
 		World.state = null;
 		
 		// Clear the embark cooldown
@@ -934,6 +978,28 @@ var World = {
 			if(supplies[item] < 0) {
 				supplies[item] = 0;
 			}
+		}
+	},
+
+	redeemBlueprints: function() {
+		var redeemed = false;
+		var redeem = function(blueprint, item) {
+			if(Path.outfit[blueprint]) {
+				$SM.set('character.blueprints["'+item+'"]', true);
+				delete Path.outfit[blueprint];
+				redeemed = true;
+			}
+		};
+
+		redeem('hypo blueprint', 'hypo');
+		redeem('kinetic armour blueprint', 'kinetic armour');
+		redeem('disruptor blueprint', 'disruptor');
+		redeem('plasma rifle blueprint', 'plasma rifle');
+		redeem('stim blueprint', 'stim');
+		redeem('glowstone blueprint', 'glowstone');
+
+		if(redeemed) {
+			Notifications.notify(null, _('blueprints feed into the fabricator data port. possibilities grow.'));
 		}
 	},
 	

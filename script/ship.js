@@ -79,6 +79,10 @@ var Ship = {
 		// Init Space
 		Space.init();
 		
+		// The crashed ship is recovered, so unlock the wanderer Fabricator.
+		// (Must run after Ship.panel is created so the panel can be inserted before it.)
+		Fabricator.init();
+		
 		//subscribe to stateUpdates
 		$.Dispatch('stateUpdate').subscribe(Ship.handleStateUpdates);
 	},

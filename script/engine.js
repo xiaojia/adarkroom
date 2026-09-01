@@ -584,6 +584,10 @@
 			//return (num > 0 ? "+" : "") + num + " per " + delay + "s";
 		},
 	
+		keyLock: false,
+		tabNavigation: true,
+		restoreNavigation: false,
+
 		keyDown: function(e) {
 			e = e || window.event;
 			if(!Engine.keyPressed && !Engine.keyLock) {
@@ -618,7 +622,8 @@
 						Engine.log('down');
 						break;
 					case 37: // Left
-					case 65:
+				case 65:
+					if(Engine.tabNavigation) {
 						if(Engine.activeModule == Ship && Path.tab)
 							Engine.travelTo(Path);
 						else if(Engine.activeModule == Path && Outside.tab){
@@ -628,10 +633,12 @@
 							Engine.activeModule.scrollSidebar('left', true);
 							Engine.travelTo(Room);
 						}
-						Engine.log('left');
-						break;
-					case 39: // Right
-					case 68:
+					}
+					Engine.log('left');
+					break;
+				case 39: // Right
+				case 68:
+					if(Engine.tabNavigation) {
 						if(Engine.activeModule == Room && Outside.tab)
 							Engine.travelTo(Outside);
 						else if(Engine.activeModule == Outside && Path.tab){
@@ -641,8 +648,9 @@
 							Engine.activeModule.scrollSidebar('right', true);
 							Engine.travelTo(Ship);
 						}
-						Engine.log('right');
-						break;
+					}
+					Engine.log('right');
+					break;
 				}
 			}
 	
@@ -715,6 +723,17 @@
 			}
 
 			return setTimeout(callback, timeout);
+
+		},
+
+		setInterval: function(callback, timeout, skipDouble){
+
+			if( Engine.options.doubleTime && !skipDouble ){
+				Engine.log('Double time, cutting interval in half');
+				timeout /= 2;
+			}
+
+			return setInterval(callback, timeout);
 
 		}
 
