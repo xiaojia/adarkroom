@@ -48,8 +48,8 @@ body.noMask {
 #map .px-tile {
 	flex: none;
 	position: relative;
-	width: 12px;
-	height: 12px;
+	width: 11.4px;
+	height: 11.4px;
 	box-sizing: border-box;
 }
 
@@ -68,8 +68,8 @@ body.noMask {
 }
 
 #map .px-tile .px-svg {
-	width: 12px;
-	height: 12px;
+	width: 11px;
+	height: 11px;
 }
 
 /* 地形纯色瓦片（拉开对比度，道路/房间更易辨认） */
