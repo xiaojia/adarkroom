@@ -165,7 +165,7 @@ const Fabricator = {
         costTooltip.empty();
         const cost = value.cost();
         for (const [ resource, num ] of Object.entries(cost)) {
-          $("<div>").addClass('row_key').text(_(resource)).appendTo(costTooltip);
+          $("<div>").addClass('row_key').text(_(resource)).prepend(Pixel.icon(Pixel.resourceSprite(resource), {pixel: 2})).appendTo(costTooltip);
           $("<div>").addClass('row_val').text(num).appendTo(costTooltip);
         }
         if (max && value.maxMsg && !value.button.hasClass('disabled')) {

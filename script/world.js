@@ -941,7 +941,9 @@ var World = {
 	},
 	
 	getMaxWater: function() {
-		if(Room.isEquipped('water tank')) {
+		if($SM.get('stores["fluid recycler"]', true) > 0) {
+			return World.BASE_WATER + 100;
+		} else if(Room.isEquipped('water tank')) {
 			return World.BASE_WATER + 50;
 		} else if(Room.isEquipped('cask')) {
 			return World.BASE_WATER + 20;
