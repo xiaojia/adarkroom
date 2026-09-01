@@ -10,15 +10,18 @@ Events.Setpieces = {
 					_('a safe place in the wilds.')
 				],
 				notification: _('a safe place in the wilds.'),
-				loot: {
-					'cured meat': {
-						min: 5,
-						max: 10,
-						chance: 1
-					}
-				},
 				onLoad: function() {
 					World.useOutpost();
+					// 补给点有限：按本局剩余补给发放，拿完即不再给物品。
+					var supply = World.getOutpostSupply(World.curPos[0], World.curPos[1]);
+					var loot = null;
+					for(var item in supply) {
+						if(supply[item] > 0) {
+							loot = loot || {};
+							loot[item] = { min: supply[item], max: supply[item], chance: 1 };
+						}
+					}
+					Events.activeEvent().scenes[Events.activeScene].loot = loot;
 				},
 				buttons: {
 					'leave': {

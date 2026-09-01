@@ -606,6 +606,7 @@ var Events = {
 			}).data('numLeft', num).insertBefore($('.clear', lootButtons));
 		}
 		Path.outfit[thing] -= num;
+		World.adjustOutpostSupply(thing, num);
 		Events.getLoot(btn.closest('.button'));
 		World.updateSupplies();
 	},
@@ -635,6 +636,7 @@ var Events = {
 				curNum = typeof curNum == 'number' ? curNum : 0;
 				curNum++;
 				Path.outfit[name] = curNum;
+				World.adjustOutpostSupply(name, -1);
 				World.updateSupplies();
 
 				// Update weight and free space variables so we can decide

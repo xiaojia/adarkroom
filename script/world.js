@@ -523,9 +523,7 @@ var World = {
 		if(curTile == World.TILE.VILLAGE) {
 			World.goHome();
 		} else if(typeof World.LANDMARKS[curTile] != 'undefined') {
-			if(curTile != World.TILE.OUTPOST || !World.outpostUsed()) {
-				Events.startEvent(Events.Setpieces[World.LANDMARKS[curTile].scene]);
-			}
+			Events.startEvent(Events.Setpieces[World.LANDMARKS[curTile].scene]);
 		} else {
 			if(World.useSupplies()) {
 				World.checkFight();
@@ -787,8 +785,7 @@ var World = {
 					var landmark = null;
 					if(base === World.TILE.VILLAGE) {
 						landmark = 'lm_village';
-					} else if(typeof World.LANDMARKS[base] != 'undefined' &&
-						(base !== World.TILE.OUTPOST || !World.outpostUsed(i, j))) {
+					} else if(typeof World.LANDMARKS[base] != 'undefined') {
 						landmark = Pixel.TILE_ICONS[base];
 					}
 					if(landmark && Pixel.svg(landmark)) {
@@ -909,19 +906,35 @@ var World = {
 		}
 		return World.BASE_WATER;
 	},
-	
-	outpostUsed: function(x, y) {
-		x = typeof x == 'number' ? x : World.curPos[0];
-		y = typeof y == 'number' ? y : World.curPos[1];
-		var used = World.usedOutposts[x + ',' + y];
-		return typeof used != 'undefined' && used === true;
-	},
-	
+
 	useOutpost: function() {
 		Notifications.notify(null, _('water replenished'));
 		World.setWater(World.getMaxWater());
-		// Mark this outpost as used
-		World.usedOutposts[World.curPos[0] + ',' + World.curPos[1]] = true;
+	},
+
+	// 某补给点的本局剩余补给。首次进入时初始化（有限，拿完为止）。
+	getOutpostSupply: function(x, y) {
+		x = typeof x == 'number' ? x : World.curPos[0];
+		y = typeof y == 'number' ? y : World.curPos[1];
+		var key = x + ',' + y;
+		if(typeof World.outpostSupplies[key] == 'undefined') {
+			World.outpostSupplies[key] = {
+				'cured meat': Math.floor(Math.random() * (10 - 5)) + 5
+			};
+		}
+		return World.outpostSupplies[key];
+	},
+
+	// 调整补给点本局剩余补给（拾取时 -1，丢弃回库时 +num）。
+	adjustOutpostSupply: function(item, delta) {
+		var key = World.curPos[0] + ',' + World.curPos[1];
+		var supplies = World.outpostSupplies[key];
+		if(typeof supplies != 'undefined' && typeof supplies[item] == 'number') {
+			supplies[item] += delta;
+			if(supplies[item] < 0) {
+				supplies[item] = 0;
+			}
+		}
 	},
 	
 	onArrival: function() {
@@ -934,7 +947,7 @@ var World = {
 		World.waterMove = 0;
 		World.starvation = false;
 		World.thirst = false;
-		World.usedOutposts = {};
+		World.outpostSupplies = {};
 		World.curPos = World.copyPos(World.VILLAGE_POS);
 		World.drawMap();
 		World.setTitle();
