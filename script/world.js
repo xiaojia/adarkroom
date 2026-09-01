@@ -287,7 +287,7 @@ var World = {
 		
 		var total = 0;
 		for(var k in Path.outfit) {
-			var item = $('div#supply_' + k.replace(' ', '-'), supplies);
+			var item = $('div#supply_' + k.replace(/ /g, '-'), supplies);
 			var num = Path.outfit[k];
 			total += num * Path.getWeight(k);
 			if(num > 0 && item.length === 0) {
@@ -336,7 +336,7 @@ var World = {
 	},
 	
 	createItemDiv: function(name, num) {
-		var div = $('<div>').attr('id', 'supply_' + name.replace(' ', '-'))
+		var div = $('<div>').attr('id', 'supply_' + name.replace(/ /g, '-'))
 			.addClass('supplyItem')
 			.text(_('{0}:{1}',_(name), num));
 		
@@ -820,6 +820,9 @@ var World = {
 				} else if(World.state.mask[i][j]) {
 					var c = World.state.map[i][j];
 					var base = c.length > 1 ? c[0] : c;
+					// 已访问（带 '!' 后缀）或已清空为补给点（哨站）的地块追加视觉标识
+					var visited = c.length > 1;
+					var isOutpost = (base === World.TILE.OUTPOST);
 					var landmark = null;
 					if(base === World.TILE.VILLAGE) {
 						landmark = 'lm_village';
@@ -828,6 +831,9 @@ var World = {
 					}
 					if(landmark && Pixel.svg(landmark)) {
 						tileClass += ' px-landmark';
+						if(visited || isOutpost) {
+							tileClass += ' px-visited';
+						}
 						var label = (base === World.TILE.VILLAGE) ? _('The&nbsp;Village') : World.LANDMARKS[base].label;
 						inner = Pixel.svg(landmark, {pixel: 1}) +
 							'<div class="tooltip' + ttClass + '">' + label + '</div>';
@@ -923,7 +929,9 @@ var World = {
 	},
 	
 	getMaxHealth: function() {
-		if($SM.get('stores["s armour"]', true) > 0) {
+		if($SM.get('stores["kinetic armour"]', true) > 0) {
+			return World.BASE_HEALTH + 50;
+		} else if($SM.get('stores["s armour"]', true) > 0) {
 			return World.BASE_HEALTH + 35;
 		} else if($SM.get('stores["i armour"]', true) > 0) {
 			return World.BASE_HEALTH + 15;

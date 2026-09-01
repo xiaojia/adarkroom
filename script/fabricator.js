@@ -150,14 +150,20 @@ const Fabricator = {
       if (!value.button) {
         if (Fabricator.canFabricate(key)) {
           const name = _(value.name) + ((value.quantity ?? 1) > 1 ? ` (x${value.quantity})` : '');
-          value.button = new Button.Button({
+          const btn = new Button.Button({
             id: 'fabricate_' + key,
             cost: value.cost(),
             text: name,
             click: Fabricator.fabricate,
             width: '150px',
             ttPos: section.children().length > 10 ? 'top right' : 'bottom right'
-          }).css('opacity', 0).attr('fabricateThing', key).appendTo(section).animate({ opacity: 1 }, 300, 'linear');
+          });
+          // 给按钮本体加上一个像素图标（优先建筑/升级图标，其次资源图标）
+          const sprite = Pixel.buildingSprite(key) || Pixel.resourceSprite(key);
+          if (sprite) {
+            btn.prepend(Pixel.icon(sprite, {pixel: 2}));
+          }
+          value.button = btn.css('opacity', 0).attr('fabricateThing', key).appendTo(section).animate({ opacity: 1 }, 300, 'linear');
         }
       } else {
         // refresh the tooltip
@@ -201,7 +207,9 @@ const Fabricator = {
       let r = $('#' + id);
       if($SM.get(`character.blueprints["${k}"]`) && r.length === 0) {
         r = $('<div>').attr('id', id).addClass('blueprintRow').appendTo(blueprints);
-        $('<div>').addClass('row_key').text(_(k)).appendTo(r);
+        // 图纸行也加上对应物品/建筑的像素图标，保持与库存、制造按钮风格一致
+        const sprite = Pixel.buildingSprite(k) || Pixel.resourceSprite(k);
+        $('<div>').addClass('row_key').text(_(k)).prepend(Pixel.icon(sprite, {pixel: 2})).appendTo(r);
       }
     }
     

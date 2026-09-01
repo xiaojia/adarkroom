@@ -100,7 +100,23 @@ var Events = {
 		
 		var attackBtns = $('<div>').appendTo(btns).attr('id','attackButtons');
 		var numWeapons = 0;
-		for(var k in World.Weapons) {
+		// 攻击按钮排序：近战优先，其次远程（开火），其余保持原有顺序（治疗按钮在攻击按钮之后）
+		var weaponKeys = [];
+		var meleeKeys = [];
+		var rangedKeys = [];
+		for(var wk in World.Weapons) {
+			var wtype = World.Weapons[wk].type;
+			if(wtype === 'melee') {
+				meleeKeys.push(wk);
+			} else if(wtype === 'ranged') {
+				rangedKeys.push(wk);
+			} else {
+				weaponKeys.push(wk); // unarmed 及其它保持在最前
+			}
+		}
+		weaponKeys = weaponKeys.concat(meleeKeys, rangedKeys);
+		for(var ki = 0; ki < weaponKeys.length; ki++) {
+			var k = weaponKeys[ki];
 			var weapon = World.Weapons[k];
 			if(typeof Path.outfit[k] == 'number' && Path.outfit[k] > 0) {
 				if(typeof weapon.damage != 'number' || weapon.damage === 0) {
@@ -157,7 +173,7 @@ var Events = {
 				const text = s.action(enemy);
 				Events.updateFighterDiv(enemy);
 				if (text) {
-					Events.drawFloatText(text, $('.hp', enemy))
+					Events.drawFloatText(_(text), $('.hp', enemy))
 				}
 			}, 
 			s.delay * 1000
@@ -296,6 +312,12 @@ var Events = {
 				Button.setDisabled(btn, true);
 				break;
 			}
+		}
+		
+		// 若当前武器有对应图标则在其左侧显示
+		var wSpr = Pixel.resourceSprite(weaponName);
+		if(wSpr && wSpr !== 'res_generic') {
+			btn.prepend(Pixel.icon(wSpr, {pixel: 2}));
 		}
 		
 		return btn;
@@ -897,7 +919,7 @@ var Events = {
 		});
 		var takeall = new Button.Button({
 			id: 'all_take_' + id,
-			text: _('take') + ' ',
+			text: _('take'),
 			click: Events.takeAll
 		}).addClass('lootTakeAll').appendTo(lootRow);
 		$('<span>').insertBefore(takeall.children('.cooldown'));
@@ -962,7 +984,8 @@ var Events = {
 				takeAll.addClass('disabled');
 			}
 			if(num < numLeft){
-				takeAll.children('span').first().text(num);
+				// 按钮正文已是“带走”，此处只需补数量
+				takeAll.children('span').first().text(_('{0}份', num));
 			} else {
 				takeAll.children('span').first().text(_('all'));
 			}

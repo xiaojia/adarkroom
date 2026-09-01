@@ -105,7 +105,7 @@ var Path = {
 				perks = $('<div>').attr('id', 'perks');
 			}
 			for(var k in $SM.get('character.perks')) {
-				var id = 'perk_' + k.replace(' ', '-');
+				var id = 'perk_' + k.replace(/ /g, '-');
 				var r = $('#' + id);
 				if($SM.get('character.perks["'+k+'"]') && r.length === 0) {
 					r = $('<div>').attr('id', id).addClass('perkRow').appendTo(perks);
@@ -133,7 +133,9 @@ var Path = {
 		
 		// Add the armour row (reflects what is actually equipped, not just owned)
 		var armour = _("none");
-		if($SM.get('stores["s armour"]', true) > 0 && Room.isEquipped('s armour'))
+		if($SM.get('stores["kinetic armour"]', true) > 0 && Room.isEquipped('kinetic armour'))
+			armour = _("kinetic armour");
+		else if($SM.get('stores["s armour"]', true) > 0 && Room.isEquipped('s armour'))
 			armour = _("steel");
 		else if($SM.get('stores["i armour"]', true) > 0 && Room.isEquipped('i armour'))
 			armour = _("iron");
@@ -184,7 +186,7 @@ var Path = {
 			num = typeof num == 'number' ? num : 0;
 			if (have < num) { num = have; }
 			var numAvailable = $SM.get('stores["'+k+'"]', true);
-			var row = $('div#outfit_row_' + k.replace(' ', '-'), outfit);
+			var row = $('div#outfit_row_' + k.replace(/ /g, '-'), outfit);
 			if((store.type == 'tool' || store.type == 'weapon') && have > 0) {
 				total += num * Path.getWeight(k);
 				if(row.length === 0) {
@@ -194,7 +196,7 @@ var Path = {
 					outfit.children().each(function(i) {
 						var child = $(this);
 						if(child.attr('id').indexOf('outfit_row_') === 0) {
-							var cName = child.attr('id').substring(11).replace('-', ' ');
+							var cName = child.attr('id').substring(11).replace(/-/g, ' ');
 							if(cName < k && (curPrev == null || cName > curPrev)) {
 								curPrev = cName;
 							}
@@ -205,7 +207,7 @@ var Path = {
 					} 
 					else 
 					{
-						row.insertAfter(outfit.find('#outfit_row_' + curPrev.replace(' ', '-')));
+						row.insertAfter(outfit.find('#outfit_row_' + curPrev.replace(/ /g, '-')));
 					}
 				} else {
 					$('div#' + row.attr('id') + ' > div.row_val > span', outfit).text(num);
@@ -238,17 +240,16 @@ var Path = {
 				break;
 			}
 		}
-		var equipList = $('div#equipList', outfit);
-		if(anyEquip) {
-			if(equipList.length === 0) {
-				equipList = $('<div>').attr('id', 'equipList').appendTo(outfit);
-			}
-			equipList.empty();
-			$('<div>').addClass('equipHeader').text(_('equipment')).appendTo(equipList);
-				for(var e = 0; e < Room.EquippableItems.length; e++) {
-					var ek = Room.EquippableItems[e];
-					if($SM.get('stores["'+ek+'"]', true) > 0 && Room.isEquippableBestInGroup(ek)) {
-					var eRow = $('<div>').attr('id', 'equip_row_' + ek.replace(' ', '-')).addClass('outfitRow equipRow');
+		var equipList = $('div#equipList');
+	if(anyEquip) {
+		if(equipList.length === 0) {
+			equipList = $('<div>').attr({'id': 'equipList', 'data-legend': _('equipment')}).appendTo(Path.panel);
+		}
+		equipList.empty();
+		for(var e = 0; e < Room.EquippableItems.length; e++) {
+			var ek = Room.EquippableItems[e];
+			if($SM.get('stores["'+ek+'"]', true) > 0 && Room.isEquippableBestInGroup(ek)) {
+					var eRow = $('<div>').attr('id', 'equip_row_' + ek.replace(/ /g, '-')).addClass('outfitRow equipRow');
 					var keyDiv = $('<div>').addClass('row_key').text(_(ek));
 					var spr = Pixel.buildingSprite(ek) || Pixel.resourceSprite(ek);
 					if(spr && spr !== 'res_generic') {
@@ -284,7 +285,7 @@ var Path = {
 	
 	createOutfittingRow: function(key, num, name) {
 		if(!name) name = _(key);
-		var row = $('<div>').attr('id', 'outfit_row_' + key.replace(' ', '-')).addClass('outfitRow').attr('key',key);
+		var row = $('<div>').attr('id', 'outfit_row_' + key.replace(/ /g, '-')).addClass('outfitRow').attr('key',key);
 		var keyDiv = $('<div>').addClass('row_key').text(name);
 		keyDiv.prepend(Pixel.icon(Pixel.resourceSprite(key), {pixel: 2}));
 		keyDiv.appendTo(row);

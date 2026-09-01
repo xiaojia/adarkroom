@@ -12,14 +12,14 @@ var Room = {
 	buttons:{},
 
 	// Items that can be equipped/unequipped to grant carry capacity or protection
-	EquippableItems: ['waterskin', 'cask', 'water tank', 'fluid recycler', 'rucksack', 'wagon', 'convoy', 'cargo drone', 'l armour', 'i armour', 's armour'],
+	EquippableItems: ['waterskin', 'cask', 'water tank', 'fluid recycler', 'rucksack', 'wagon', 'convoy', 'cargo drone', 'l armour', 'i armour', 's armour', 'kinetic armour'],
 
 	// Grouping of equippable items by upgrade tier (lowest -> highest).
 	// Only the highest-tier owned item in each group is shown in the outfit list.
 	EquippableGroups: [
 		['waterskin', 'cask', 'water tank', 'fluid recycler'],
 		['rucksack', 'wagon', 'convoy', 'cargo drone'],
-		['l armour', 'i armour', 's armour']
+		['l armour', 'i armour', 's armour', 'kinetic armour']
 	],
 
 	isEquippable: function(thing) {
@@ -862,7 +862,7 @@ var Room = {
 				break;
 			}
 			
-			var id = "row_" + k.replace(' ', '-');
+			var id = "row_" + k.replace(/ /g, '-');
 			var row = $('div#' + id, location);
 			var num = $SM.get('stores["'+k+'"]');
 			
@@ -890,7 +890,7 @@ var Room = {
 				var curPrev = null;
 				location.children().each(function(i) {
 					var child = $(this);
-					var cName = child.attr('id').substring(4).replace('-', ' ');
+					var cName = child.attr('id').substring(4).replace(/-/g, ' ');
 					if(cName < k && (curPrev == null || cName > curPrev)) {
 						curPrev = cName;
 					}
@@ -898,7 +898,7 @@ var Room = {
 				if(curPrev == null) {
 					row.prependTo(location);
 				} else {
-					row.insertAfter(location.find('#row_' + curPrev.replace(' ', '-')));
+					row.insertAfter(location.find('#row_' + curPrev.replace(/ /g, '-')));
 				}
 				newRow = true;
 			} else if(num>= 0){
@@ -932,7 +932,7 @@ var Room = {
 			el = $(el);
 			$('div.tooltip', el).remove();
 			var tt = $('<div>').addClass('tooltip bottom right');
-			var storeName = el.attr('id').substring(4).replace('-', ' ');
+			var storeName = el.attr('id').substring(4).replace(/-/g, ' ');
 		var net = 0;
 		for(var incomeSource in $SM.get('income')) {
 			var income = $SM.get('income["'+incomeSource+'"]');

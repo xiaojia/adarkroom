@@ -99,7 +99,8 @@ div.button {
 	border-radius: 6px;
 	width: 100px;
 	margin-bottom: 6px;
-	padding: 5px 12px;
+	padding: 5px 0;
+	box-sizing: border-box;
 	cursor: pointer;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -162,7 +163,8 @@ div.button div.cooldown {
 #stores,
 #weapons,
 #outfitting,
-#perks {
+#perks,
+#blueprints {
 	border: 2px solid var(--sv-frame);
 	border-radius: 7px;
 	background:
@@ -181,17 +183,19 @@ div.button div.cooldown {
 #stores > div,
 #weapons > div,
 #outfitting > div,
-#perks > div {
+#perks > div,
+#blueprints > div {
 	text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
 }
 
-/* 面板上的羊皮纸标签（village / stores / weapons / supplies / perks） */
+/* 面板上的羊皮纸标签（village / stores / weapons / supplies / perks / blueprints） */
 #village:before,
 #stores:before,
 #weapons:before,
 #outfitting:before,
-#perks:before {
-	background: var(--sv-parch);
+#perks:before,
+#blueprints:before {
+	background: #fff;
 	color: var(--sv-txt-dk);
 	border: 2px solid var(--sv-frame);
 	border-radius: 4px;

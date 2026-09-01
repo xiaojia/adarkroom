@@ -242,14 +242,14 @@ var Outside = {
 		
 		for(var k in $SM.get('game.workers')) {
 			var workerCount = $SM.get('game.workers["'+k+'"]');
-			var row = $('div#workers_row_' + k.replace(' ', '-'), workers);
+			var row = $('div#workers_row_' + k.replace(/ /g, '-'), workers);
 			if(row.length === 0) {
 				row = Outside.makeWorkerRow(k, workerCount);
 				
 				var curPrev = null;
 				workers.children().each(function(i) {
 					var child = $(this);
-					var cName = child.attr('id').substring(12).replace('-', ' ');
+					var cName = child.attr('id').substring(12).replace(/-/g, ' ');
 					if(cName != 'gatherer') {
 						if(cName < k && (curPrev == null || cName > curPrev)) {
 							curPrev = cName;
@@ -265,7 +265,7 @@ var Outside = {
 				} 
 				else 
 				{
-					row.insertAfter(workers.find('#workers_row_' + curPrev.replace(' ', '-')));
+					row.insertAfter(workers.find('#workers_row_' + curPrev.replace(/ /g, '-')));
 				}
 				
 			} else {
@@ -315,7 +315,7 @@ var Outside = {
 		if(!name) name = key;
 		var row = $('<div>')
 			.attr('key', key)
-			.attr('id', 'workers_row_' + key.replace(' ','-'))
+			.attr('id', 'workers_row_' + key.replace(/ /g, '-'))
 			.addClass('workerRow');
 		var rowKey = $('<div>').addClass('row_key').text(name);
 		rowKey.prepend(Pixel.icon('worker', {pixel: 2}));
@@ -364,7 +364,7 @@ var Outside = {
 	},
 	
 	updateVillageRow: function(name, num, village) {
-		var id = 'building_row_' + name.replace(' ', '-');
+		var id = 'building_row_' + name.replace(/ /g, '-');
 		var row = $('div#' + id, village);
 		if(row.length === 0 && num > 0) {
 			row = $('<div>').attr('id', id).addClass('storeRow');
@@ -379,7 +379,7 @@ var Outside = {
 			village.children().each(function(i) {
 				var child = $(this);
 				if(child.attr('id') != 'population') {
-					var cName = child.attr('id').substring(13).replace('-', ' ');
+					var cName = child.attr('id').substring(13).replace(/-/g, ' ');
 					if(cName < name && (curPrev == null || cName > curPrev)) {
 						curPrev = cName;
 					}
@@ -388,7 +388,7 @@ var Outside = {
 			if(curPrev == null) {
 				row.prependTo(village);
 			} else {
-				row.insertAfter('#building_row_' + curPrev.replace(' ', '-'));
+				row.insertAfter('#building_row_' + curPrev.replace(/ /g, '-'));
 			}
 		} else if(num > 0) {
 			$('div#' + row.attr('id') + ' > div.row_val', village).text(num);
@@ -485,7 +485,7 @@ var Outside = {
 			if(typeof num == 'number') {
 				var stores = {};
 				if(num < 0) num = 0;
-				var tooltip = $('.tooltip', 'div#workers_row_' + worker.replace(' ', '-'));
+				var tooltip = $('.tooltip', 'div#workers_row_' + worker.replace(/ /g, '-'));
 				tooltip.empty();
 				var needsUpdate = false;
 				var curIncome = $SM.getIncome(worker);

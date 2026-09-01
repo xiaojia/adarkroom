@@ -179,18 +179,6 @@
 					.appendTo(menu);
 			}
 			
-			$('<span>')
-				.addClass('menuBtn')
-				.text(_('app store.'))
-				.click(function() { window.open('https://itunes.apple.com/us/app/a-dark-room/id736683061'); })
-				.appendTo(menu);
-
-			$('<span>')
-				.addClass('menuBtn')
-				.text(_('github.'))
-				.click(function() { window.open('https://github.com/Continuities/adarkroom'); })
-				.appendTo(menu);
-			
 			// Register keypress handlers
 			$('body').off('keydown').keydown(Engine.keyDown);
 			$('body').off('keyup').keyup(Engine.keyUp);
@@ -204,6 +192,13 @@
 		
 			// subscribe to stateUpdates
 			$.Dispatch('stateUpdate').subscribe(Engine.handleStateUpdates);
+
+			// AudioEngine.init() creates the AudioContext, which modern browsers
+			// leave suspended until the first user gesture. Unlock it on the first
+			// click / keypress so background music and sound effects can play.
+			$(document).one('click keydown touchstart', function() {
+				AudioEngine.tryResumingAudioContext();
+			});
 
 			$SM.init();
 			Notifications.init();
@@ -219,6 +214,8 @@
 			if($SM.get('features.location.spaceShip')) {
 				Ship.init();
 			}
+			
+			AudioEngine.init();
 			
 			Engine.saveLanguage();
 			Engine.travelTo(Room);

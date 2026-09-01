@@ -252,9 +252,154 @@ Pixel.define('terror', {
 		'..oBBbBBBBo.',
 		'..oBBBBBbBo.',
 		'..oBbo.oBBo.',
-		'..oBBo.oBBo.',
-		'..oo...oo...',
+	'..oBBo.oBBo.',
+	'..oo...oo...',
+	'............'
+]
+});
+
+// —— 战斗：机械守卫 / 机器人 ——
+Pixel.define('robot', {
+	palette: {
+		'o': '#1a120a', 'M': '#9aa2a8', 'm': '#5a6266',
+		'B': '#3a3e42', 'b': '#7a8288', 'R': '#e05a2a', 'L': '#2a2e32', 'F': '#3a3a2a'
+	},
+	grid: [
+		'............',
+		'.....oo.....',
+		'....obbo....',
+		'...oMMMMo...',
+		'...oMRRMo...',
+		'...oMMMMo...',
+		'....oMMo....',
+		'...oBMMBo...',
+		'..oMBBBBMo..',
+		'..oMbBBbMo..',
+		'..oMBBBBMo..',
+		'...oBBBBo...',
+		'...oMBB.Mo..',
+		'...oLLo.oLL.',
+		'...oFFo.oFF.'
+	]
+});
+
+// —— 战斗：炮塔（防御 / 自动炮塔）——
+Pixel.define('turret', {
+	palette: {
+		'o': '#1a120a', 'M': '#9aa2a8', 'm': '#5a6266',
+		'B': '#3a3e42', 'b': '#7a8288', 'R': '#e05a2a'
+	},
+	grid: [
+		'............',
+		'......oo....',
+		'.....oRRo...',
+		'....oBBBBo..',
+		'....oBBBBo..',
+		'...oMMMMMMo.',
+		'...oMmBBmMo.',
+		'...oMBBBBMo.',
+		'...oMMMMMMo.',
+		'....oMMMMo..',
+		'....oMMmMo..',
+		'....oMMMMo..'
+	]
+});
+
+// —— 战斗：机械四足兽 ——
+Pixel.define('mechquad', {
+	palette: {
+		'o': '#1a120a', 'M': '#9aa2a8', 'm': '#5a6266',
+		'B': '#3a3e42', 'b': '#7a8288', 'R': '#e05a2a'
+	},
+	grid: [
+		'............',
+		'...ooooo....',
+		'..oMBBBBMo..',
+		'..oMBbbBMo..',
+		'..oMBBBBMo..',
+		'..oMRRRRMo..',
+		'...oMMMMo...',
+		'..oMo..oMo..',
+		'..omo..omo..',
+		'..omo..omo..',
+		'..om....om..',
+		'..oo....oo..',
 		'............'
+	]
+});
+
+// —— 战斗：几丁质怪物（异形 / 节肢）——
+Pixel.define('chitin', {
+	palette: {
+		'o': '#1a120a', 'H': '#7a4a1a', 'h': '#5a3410',
+		'B': '#8a5a22', 'b': '#6a3a18', 'E': '#e0a02a', 'T': '#efe0c8'
+	},
+	grid: [
+		'............',
+		'..o......o..',
+		'.oBHo..oBBo.',
+		'.oHHHo.oBHo.',
+		'oHHHHHoBHHo.',
+		'oHEhHHoHHHo.',
+		'oHHHHHHHHHo.',
+		'.oBBBBBBBHo.',
+		'..oBBBBBBo..',
+		'..oBbBBbBo..',
+		'..oBbo.oBBo.',
+		'..oBBo..oB..',
+		'..oBB....o..',
+		'..oo........',
+		'............'
+	]
+});
+
+// —— 战斗：双头怪 ——
+Pixel.define('twohead', {
+	palette: {
+		'o': '#1a120a', 'H': '#6a4a2a', 'h': '#4a3018',
+		'B': '#5a3a22', 'E': '#e05a2a'
+	},
+	grid: [
+		'............',
+		'..oBBo.oBBo.',
+		'.oHHHo.oHHHo',
+		'.oHEHooHEHo.',
+		'.oHHHo.oHHHo',
+		'..oHHhooHHo.',
+		'...oHHHHHo..',
+		'..oHHHHHHo..',
+		'..oHhHHhHo..',
+		'..oHHHHHHo..',
+		'...oHHHHo...',
+		'...oBBBBo...',
+		'...oBB.oBB..',
+		'...oBB.oBB..',
+		'...oo...oo..'
+	]
+});
+
+// —— 战斗：研究员（科学家）——
+Pixel.define('researcher', {
+	palette: {
+		'o': '#1a120a', 'H': '#d8a878', 'h': '#2a2a2a',
+		'W': '#d8d8d0', 'w': '#a8a8a0', 'L': '#3a3a3a', 'F': '#3a3a2a'
+	},
+	grid: [
+		'............',
+		'....oooo....',
+		'...ohhhho...',
+		'...oHHHHo...',
+		'...oHHHHo...',
+		'....oHHo....',
+		'....oWWo....',
+		'...oWWWWo...',
+		'..oWWWWWWo..',
+		'..oWwwwWWo..',
+		'..oWwwwWWo..',
+		'..oWWWWWWo..',
+		'...oLLLLo...',
+		'...oLL.oLL..',
+		'...oFF.oFF..'
 	]
 });
 
@@ -1093,6 +1238,27 @@ Pixel.define('upgrade_s_armour', {
 	]
 });
 
+// —— 动能装甲（升级品，最高级护甲）——
+Pixel.define('upgrade_kinetic_armour', {
+	palette: {
+		'o': '#1a120a', 'B': '#4ac6d6', 'b': '#1f7a8c', 'g': '#8ef2ff'
+	},
+	grid: [
+		'............',
+		'...oooooo...',
+		'..oBBBBBBo..',
+		'..oBooooBo..',
+		'..oBBBbbBo..',
+		'..oBgBbBo...',
+		'..oBBbbBBo..',
+		'..oBBBBBBo..',
+		'...oBBBBo...',
+		'....oBBo....',
+		'.....oo.....',
+		'............'
+	]
+});
+
 /* ---------------------------------------------------------------------
  * 物资图标（商店 / 背包用）—— 统一 12x12
  * --------------------------------------------------------------------- */
@@ -1601,6 +1767,113 @@ Pixel.define('res_bolas', {
 	]
 });
 
+// —— 刺刀 ——
+Pixel.define('res_bayonet', {
+	palette: {
+		'o': '#1a120a', 'S': '#c8d2d8', 's': '#8a98a0', 'T': '#f0f6f8', 'W': '#8a6a3a', 'w': '#5a3a1e'
+	},
+	grid: [
+		'.....oo.....',
+		'....oSTSo...',
+		'....oSTsSo..',
+		'....oSTSo...',
+		'....oSTSo...',
+		'....oSTSo...',
+		'....oSTSo...',
+		'....oSSSo...',
+		'...oSSsSo...',
+		'.....oWo....',
+		'....oWWWo...',
+		'.....oo.....'
+	]
+});
+
+// —— 能量剑（造物台武器）——
+Pixel.define('res_energyblade', {
+	palette: {
+		'o': '#0a1616', 'E': '#5ae0f0', 'e': '#2a98b0', 'W': '#eaffff', 'K': '#3a3a3a', 'k': '#2a2a2a'
+	},
+	grid: [
+		'.....oo.....',
+		'....oEEo....',
+		'....oEeEo...',
+		'...oEWWWEo..',
+		'...oEWWWEo..',
+		'...oEWWWEo..',
+		'...oEWWWEo..',
+		'....oEeEo...',
+		'....oEEo....',
+		'.....oKo....',
+		'....oKKKo...',
+		'.....oo.....'
+	]
+});
+
+// —— 激光步枪（造物台武器）——
+Pixel.define('res_laserrifle', {
+	palette: {
+		'o': '#1a120a', 'M': '#5a6a72', 'm': '#3a4a52', 'W': '#8a96a0', 'E': '#5ae0f0', 'e': '#2a98b0', 'K': '#3a3a3a'
+	},
+	grid: [
+		'............',
+		'............',
+		'............',
+		'............',
+		'............',
+		'..oooooooooo',
+		'.oWmWWWWEEeo',
+		'..oMWWWWEEo.',
+		'...ooooo....',
+		'...oKKo.....',
+		'...oKKo.....',
+		'.............'
+	]
+});
+
+// —— 等离子步枪（造物台武器）——
+Pixel.define('res_plasma_rifle', {
+	palette: {
+		'o': '#1a120a', 'M': '#4a5a62', 'm': '#3a4a52', 'W': '#8a96a0',
+		'V': '#b06af0', 'v': '#7a3ac0', 'G': '#e0c0ff', 'K': '#3a3a3a'
+	},
+	grid: [
+		'............',
+		'............',
+		'............',
+		'............',
+		'............',
+		'..oooooooooo',
+		'.oWmWVVVVGGo',
+		'..oMWVVVVGo.',
+		'...ooooo....',
+		'...oKKo.....',
+		'...oKKo.....',
+		'.............'
+	]
+});
+
+// —— 干扰器（造物台武器，眩晕）——
+Pixel.define('res_disruptor', {
+	palette: {
+		'o': '#1a120a', 'W': '#8a96a0', 'm': '#4a5a62', 'K': '#3a3a3a',
+		'Y': '#ffe15a', 'y': '#c8a020'
+	},
+	grid: [
+		'............',
+		'............',
+		'............',
+		'............',
+		'............',
+		'...oooooo...',
+		'..oWWYYYWWo.',
+		'..omWWYYWWo.',
+		'....oWWWo...',
+		'....oKKo....',
+		'....oKKo....',
+		'....oooo....'
+	]
+});
+
 // —— 外星合金 ——
 Pixel.define('res_alienalloy', {
 	palette: {
@@ -1638,6 +1911,69 @@ Pixel.define('res_compass', {
 		'.oBbWWWWbBo.',
 		'..oBBBBBBo..',
 		'...oooooo...',
+		'............',
+		'............'
+	]
+});
+
+// —— 注射剂（hypo，一支注射器）——
+Pixel.define('res_hypo', {
+	palette: {
+		'o': '#1a120a', 'W': '#e8e8e8', 'w': '#b8b8b8', 'B': '#4a7ad0', 'N': '#8a8a8a'
+	},
+	grid: [
+		'............',
+		'.....oooo...',
+		'...oWWWWWWo.',
+		'...oWWWWWWo.',
+		'...oWWBBWWo.',
+		'...oWWBBWWo.',
+		'...oWWBBWWo.',
+		'...oWWWWWWo.',
+		'....oWWWWo..',
+		'....oNNNNo..',
+		'.....oNNo...',
+		'............'
+	]
+});
+
+// —— 兴奋剂（stim，装有橙色能量液的小瓶）——
+Pixel.define('res_stim', {
+	palette: {
+		'o': '#1a120a', 'G': '#8a6a3a', 'Y': '#ffd23a', 'R': '#f07030', 'W': '#fff8d0'
+	},
+	grid: [
+		'............',
+		'....oooo....',
+		'....oYYo....',
+		'....oYYo....',
+		'...oooooo...',
+		'..oGRRRRGo..',
+		'..oGRWWRGo..',
+		'..oGRWWRGo..',
+		'..oGRRRRGo..',
+		'...oGGGGo...',
+		'....oooo....',
+		'............'
+	]
+});
+
+// —— 辉光石（glowstone，发光球体）——
+Pixel.define('res_glowstone', {
+	palette: {
+		'o': '#1a120a', 'C': '#35d0e0', 'c': '#7ae8f0', 'W': '#e0ffff', 'Y': '#f4e05a'
+	},
+	grid: [
+		'............',
+		'...oooooo...',
+		'..oCCCCCCo..',
+		'..oCWWCCCc..',
+		'..oCWCCCCo..',
+		'..oCCcCCCo..',
+		'..oCCcCCCo..',
+		'..oCCCCCCo..',
+		'..oCCYYCCo..',
+		'...oCCCCo...',
 		'............',
 		'............'
 	]
@@ -1774,13 +2110,21 @@ Pixel.resourceSprite = function(name) {
 		'charm': 'res_charm',
 		'grenade': 'res_grenade',
 		'energycell': 'res_energycell',
+		'energyblade': 'res_energyblade',
+		'laserrifle': 'res_laserrifle',
+		'plasmarifle': 'res_plasma_rifle',
+		'disruptor': 'res_disruptor',
 		'rifle': 'res_rifle',
 		'bonespear': 'res_bonespear',
 		'ironsword': 'res_ironsword',
 		'steelsword': 'res_steelsword',
 		'bolas': 'res_bolas',
+		'bayonet': 'res_bayonet',
 		'alienalloy': 'res_alienalloy',
-		'compass': 'res_compass'
+		'compass': 'res_compass',
+		'hypo': 'res_hypo',
+		'stim': 'res_stim',
+		'glowstone': 'res_glowstone'
 	};
 	return map[name] || 'res_generic';
 };
@@ -1816,7 +2160,8 @@ Pixel.buildingSprite = function(name) {
 			'cargo drone': 'upgrade_cargo_drone',
 			'l armour': 'upgrade_l_armour',
 			'i armour': 'upgrade_i_armour',
-			's armour': 'upgrade_s_armour'
+			's armour': 'upgrade_s_armour',
+			'kinetic armour': 'upgrade_kinetic_armour'
 		};
 	return map[name] || null;
 };
@@ -1862,7 +2207,30 @@ Pixel.fighterSprite = function(name) {
 		'feral terror': 'terror',
 		'deformed': 'terror',
 		'tentacles': 'terror',
-		'chief': 'terror'
+		'chief': 'terror',
+		// —— 双头怪 ——
+		'two-headed creature': 'twohead',
+		// —— 机械 / 机器人（处刑者场景）——
+		'mechanical guard': 'robot',
+		'broken medic': 'robot',
+		'operative': 'soldier',
+		'unruly welder': 'robot',
+		'unstable prototype': 'robot',
+		'murderous robot': 'robot',
+		'unstable automaton': 'robot',
+		'immortal wanderer': 'robot',
+		// —— 机械四足兽 ——
+		'mechanical quadruped': 'mechquad',
+		// —— 炮塔 ——
+		'defence turret': 'turret',
+		'automated turret': 'turret',
+		// —— 几丁质 / 异形 ——
+		'chitinous horror': 'chitin',
+		'chitinous queen': 'chitin',
+		'ancient beast': 'chitin',
+		'malformed experiment': 'chitin',
+		// —— 研究员 ——
+		'researcher': 'researcher'
 	};
 	return map[name] || null;
 };

@@ -67,6 +67,22 @@ body.noMask {
 	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
 }
 
+/* 已访问的地标 / 已清空的补给点：右上角叠加绿色对号标识 */
+#map .px-visited::after {
+	content: '';
+	position: absolute;
+	top: 1px;
+	right: 0;
+	width: 4px;
+	height: 7px;
+	border: solid #58c02a;
+	border-width: 0 2px 2px 0;
+	transform: rotate(40deg);
+	z-index: 3;
+	pointer-events: none;
+	box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+
 #map .px-tile .px-svg {
 	width: 11px;
 	height: 11px;

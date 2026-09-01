@@ -445,7 +445,7 @@ div.tooltip:hover {
 	left: 250px;
 	padding: 20px;
 	position: absolute;
-	top: 90px;
+	top: 150px;
 	width: 335px;
 	z-index: 20;
 }
@@ -461,7 +461,7 @@ body.noMask .eventPanel {
 	height: 1000px;
 	left: -252px;
 	position: absolute;
-	top: -75px;
+	top: -150px;
 	width: 920px;
 	z-index: -2;
 }
