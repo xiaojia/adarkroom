@@ -2124,7 +2124,8 @@ Pixel.resourceSprite = function(name) {
 		'compass': 'res_compass',
 		'hypo': 'res_hypo',
 		'stim': 'res_stim',
-		'glowstone': 'res_glowstone'
+		'glowstone': 'res_glowstone',
+		'torch': 'tool_torch'
 	};
 	return map[name] || 'res_generic';
 };
