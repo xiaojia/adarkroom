@@ -14,7 +14,27 @@ var Path = {
 		'plasma rifle': 5,
 		'bolas': 0.5
 	},
-		
+	
+	// Custom ordering for the supply (outfit) list, grouped by category:
+	// cured meat first, then melee weapons, ranged weapons + ammo, food, auxiliary
+	_SUPPLY_ORDER: [
+		'cured meat',
+		// melee weapons
+		'bone spear', 'iron sword', 'steel sword', 'bayonet', 'energy blade',
+		// ranged weapons and ammo
+		'rifle', 'laser rifle', 'plasma rifle', 'grenade', 'bolas', 'disruptor',
+		'bullets', 'energy cell',
+		// food / consumables
+		'meat', 'medicine',
+		// auxiliary
+		'torch', 'charm', 'alien alloy', 'hypo', 'stim', 'glowstone'
+	],
+
+	_supplyRank: function(thing) {
+		var idx = Path._SUPPLY_ORDER.indexOf(thing);
+		return idx === -1 ? Path._SUPPLY_ORDER.length : idx;
+	},
+	
 	name: 'Path',
 	options: {}, // Nuthin'
 	init: function(options) {
@@ -193,12 +213,16 @@ var Path = {
 					row = Path.createOutfittingRow(k, num, store.name);
 					
 					var curPrev = null;
+					var curPrevRank = -1;
+					var kRank = Path._supplyRank(k);
 					outfit.children().each(function(i) {
 						var child = $(this);
 						if(child.attr('id').indexOf('outfit_row_') === 0) {
 							var cName = child.attr('id').substring(11).replace(/-/g, ' ');
-							if(cName < k && (curPrev == null || cName > curPrev)) {
+							var cRank = Path._supplyRank(cName);
+							if(cRank < kRank && cRank > curPrevRank) {
 								curPrev = cName;
+								curPrevRank = cRank;
 							}
 						}
 					});
